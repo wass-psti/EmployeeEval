@@ -30,6 +30,15 @@ export function AppStoreProvider({ children }) {
 
   useEffect(() => { refresh(); }, [refresh]);
 
+  useEffect(() => {
+    if (currentUserId === 'local-system' || !employees.length) return;
+    const selected = employees.find((row) => row.id === currentUserId && row.active !== false);
+    if (!selected) {
+      setCurrentUserId('local-system');
+      localStorage.setItem('aps.employee-evaluation.current-user', 'local-system');
+    }
+  }, [employees, currentUserId]);
+
   const setCurrentUser = useCallback((id) => {
     setCurrentUserId(id);
     localStorage.setItem('aps.employee-evaluation.current-user', id);

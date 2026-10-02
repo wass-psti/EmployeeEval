@@ -9,16 +9,17 @@ export default function DashboardPage({ onNavigate }) {
   const active = employees.filter((row) => row.active !== false);
   const periodEvals = evaluations.filter((row) => row.period === settings.activePeriod);
   const submitted = periodEvals.filter((row) => ['Submitted', 'Reviewed', 'Finalized'].includes(row.status));
+  const completedEmployeeIds = new Set(submitted.map((row) => row.employeeId));
   const scored = submitted.filter((row) => row.overallScore > 0);
   const average = scored.length ? scored.reduce((sum, row) => sum + row.overallScore, 0) / scored.length : 0;
-  const completion = active.length ? Math.round((submitted.length / active.length) * 100) : 0;
+  const completion = active.length ? Math.round((completedEmployeeIds.size / active.length) * 100) : 0;
   const statusCounts = useMemo(() => periodEvals.reduce((acc, row) => { acc[row.status] = (acc[row.status] || 0) + 1; return acc; }, {}), [periodEvals]);
 
   return <div className="page-stack">
     <div className="page-heading"><div><h1>Evaluation Dashboard</h1><p>{settings.activePeriod} performance cycle</p></div><span className={`window-badge ${settings.evaluationWindow.toLowerCase().replace(' ', '-')}`}>{settings.evaluationWindow}</span></div>
     <div className="stat-grid">
       <Stat icon={Users} label="Active Employees" value={active.length} sub="Employee master data" />
-      <Stat icon={ClipboardCheck} label="Evaluations Completed" value={`${submitted.length}/${active.length}`} sub={`${completion}% completion`} />
+      <Stat icon={ClipboardCheck} label="Evaluations Completed" value={`${completedEmployeeIds.size}/${active.length}`} sub={`${completion}% completion`} />
       <Stat icon={Star} label="Organization Average" value={average ? average.toFixed(2) : '—'} sub={average ? ratingLabel(average) : 'Awaiting submitted evaluations'} />
       <Stat icon={CalendarClock} label="Evaluation Window" value={settings.evaluationWindow} sub={settings.windowCloseDate ? `Closes ${new Date(settings.windowCloseDate).toLocaleDateString()}` : 'No close date configured'} />
     </div>

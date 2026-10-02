@@ -23,8 +23,8 @@ export default function EmployeeForm({ open, employee, employees, onClose, onSav
       <label>Email<input type="email" value={form.email || ''} onChange={(e) => field('email', e.target.value)} />{errors.email && <small className="error-text">{errors.email}</small>}</label>
       <label>Job Title<input value={form.jobTitle || ''} onChange={(e) => field('jobTitle', e.target.value)} /></label>
       <label>Department<select value={form.department || ''} onChange={(e) => field('department', e.target.value)}><option value="">Select department</option>{DEFAULT_DEPARTMENTS.map((dept) => <option key={dept}>{dept}</option>)}</select></label>
-      <label>Role<select value={form.role} onChange={(e) => field('role', e.target.value)}>{Object.entries(ROLE_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
-      <label>Supervisor<select value={form.supervisorId || ''} onChange={(e) => field('supervisorId', e.target.value)}><option value="">None</option>{supervisors.map((row) => <option key={row.id} value={row.id}>{row.name}</option>)}</select></label>
+      <label>Role<select value={form.role} onChange={(e) => field('role', e.target.value)}>{Object.entries(ROLE_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>{errors.role && <small className="error-text">{errors.role}</small>}</label>
+      <label>Supervisor<select value={form.supervisorId || ''} onChange={(e) => field('supervisorId', e.target.value)}><option value="">None</option>{supervisors.map((row) => <option key={row.id} value={row.id}>{row.name}</option>)}</select>{errors.supervisorId && <small className="error-text">{errors.supervisorId}</small>}</label>
       <label className="checkbox-label"><input type="checkbox" checked={form.active !== false} onChange={(e) => field('active', e.target.checked)} /> Active employee</label>
     </div>
   </Modal>;

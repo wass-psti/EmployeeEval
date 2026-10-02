@@ -1,29 +1,45 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, Check, Save, Send, Star } from 'lucide-react';
 import Modal from './Modal.jsx';
 import { CRITERIA_CATEGORIES, EVALUATION_CRITERIA, RECOMMENDATIONS, currentPeriod } from '../domain/constants.js';
 import { calculateCategoryAverage, calculateOverallScore, ratedCount, ratingLabel } from '../domain/scoring.js';
 
 const blank = (employeeId, evaluatorId, period) => ({ employeeId, evaluatorId, period, ratings: {}, comments: '', strengths: '', improvements: '', recommendation: '', status: 'Draft' });
+const serializable = (value) => JSON.stringify({ ratings: value.ratings || {}, comments: value.comments || '', strengths: value.strengths || '', improvements: value.improvements || '', recommendation: value.recommendation || '' });
 
 export default function EvaluationForm({ open, employee, evaluator, existing, settings, onClose, onSave }) {
   const [form, setForm] = useState(blank(employee?.id, evaluator?.id, settings?.activePeriod || currentPeriod()));
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
+  const baseline = useRef('');
   useEffect(() => {
     if (!open || !employee) return;
-    setForm(existing ? { ...existing, ratings: { ...existing.ratings } } : blank(employee.id, evaluator.id, settings?.activePeriod || currentPeriod()));
+    const initial = existing ? { ...existing, ratings: { ...existing.ratings } } : blank(employee.id, evaluator.id, settings?.activePeriod || currentPeriod());
+    setForm(initial);
+    baseline.current = serializable(initial);
     setErrors({});
   }, [open, employee, evaluator, existing, settings]);
   const score = useMemo(() => calculateOverallScore(form.ratings), [form.ratings]);
   const count = useMemo(() => ratedCount(form.ratings), [form.ratings]);
+  const dirty = serializable(form) !== baseline.current;
   if (!employee) return null;
+  const requestClose = () => {
+    if (!saving && dirty && !confirm('Discard unsaved evaluation changes?')) return;
+    onClose();
+  };
   const submit = async (status) => {
     setSaving(true); setErrors({});
-    try { await onSave({ ...form, status }); onClose(); } catch (err) { setErrors(err.details || { general: err.message }); } finally { setSaving(false); }
+    try {
+      const saved = await onSave({ ...form, status });
+      baseline.current = serializable(saved || { ...form, status });
+      onClose();
+    } catch (err) {
+      const details = err.details || {};
+      setErrors(Object.keys(details).length ? details : { general: err.message });
+    } finally { setSaving(false); }
   };
-  const footer = <><div className="footer-spacer" /><button className="btn secondary" onClick={onClose}>Cancel</button><button className="btn secondary" onClick={() => submit('Draft')} disabled={saving}><Save size={16} /> Save Draft</button><button className="btn primary" onClick={() => submit('Submitted')} disabled={saving}><Send size={16} /> Submit</button></>;
-  return <Modal open={open} onClose={onClose} wide title={`Evaluate ${employee.name}`} subtitle={`${employee.jobTitle || 'Employee'} · ${settings?.activePeriod || currentPeriod()}`} footer={footer}>
+  const footer = <><div className="footer-spacer">{dirty && <span className="unsaved-indicator">Unsaved changes</span>}</div><button className="btn secondary" onClick={requestClose} disabled={saving}>Cancel</button><button className="btn secondary" onClick={() => submit('Draft')} disabled={saving}><Save size={16} /> {saving ? 'Saving…' : 'Save Draft'}</button><button className="btn primary" onClick={() => submit('Submitted')} disabled={saving}><Send size={16} /> {saving ? 'Saving…' : 'Submit'}</button></>;
+  return <Modal open={open} onClose={requestClose} wide title={`Evaluate ${employee.name}`} subtitle={`${employee.jobTitle || 'Employee'} · ${settings?.activePeriod || currentPeriod()}${existing?.revision ? ` · Revision ${existing.revision}` : ''}`} footer={footer}>
     {errors.general && <div className="alert error">{errors.general}</div>}
     {errors.ratings && <div className="alert warning"><AlertTriangle size={16} /> {errors.ratings}</div>}
     <div className="score-summary"><div><span>Criteria Rated</span><strong>{count}/{EVALUATION_CRITERIA.length}</strong></div><div><span>Overall Score</span><strong>{score ? score.toFixed(2) : '—'}</strong></div><div><span>Rating</span><strong>{score ? ratingLabel(score) : 'Awaiting ratings'}</strong></div></div>

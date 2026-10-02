@@ -238,3 +238,6 @@ textarea { min-height: 92px; resize: vertical; line-height: 1.5; }
   .modal-body { padding-top: 12px; padding-bottom: 12px; }
   .criterion-row { padding-top: 8px; padding-bottom: 8px; }
 }
+.alert.success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+.unsaved-indicator { color: #92400e; font-size: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 5px; }
+.timeline-detail { display: inline-flex; width: auto; background: #f1f5f9; border-radius: 999px; padding: 3px 7px; color: #475569 !important; font-weight: 700; }
