@@ -22,7 +22,7 @@ export const RELEASE_MANIFEST = Object.freeze({
 
 export function validateReleaseManifest(manifest = RELEASE_MANIFEST) {
   const problems = [];
-  if (!/^0\.5\.0$/.test(String(manifest.applicationVersion))) problems.push('Application version must be 0.5.0 for this release.');
+  if (!/^1\.0\.0$/.test(String(manifest.applicationVersion))) problems.push('Application version must be 1.0.0 for this release.');
   if (Number(manifest.repositoryContractVersion) !== 1) problems.push('Repository Contract must remain v1.');
   if (Number(manifest.schemaVersion) !== 2) problems.push('Employee/Evaluation schema must remain v2.');
   if (Number(manifest.backupFormatVersion) !== 2) problems.push('Backup format must remain v2.');

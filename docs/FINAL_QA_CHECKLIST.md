@@ -1,6 +1,6 @@
-# Employee Evaluation v0.5.0 — Final QA Checklist
+# Employee Evaluation v1.0.0 — Final QA Checklist
 
-Use this checklist before promoting the standalone build to the final Supabase handoff candidate.
+Use this checklist before handing the standalone release to the IT partner or enabling a production provider.
 
 ## Build and automated validation
 

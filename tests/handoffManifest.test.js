@@ -21,7 +21,7 @@ test('handoff manifest reports frozen versions and a ready provider', () => {
   });
   assert.equal(manifest.format, 'employee-evaluation-handoff-manifest');
   assert.equal(manifest.formatVersion, 1);
-  assert.equal(manifest.application.version, '0.5.0');
+  assert.equal(manifest.application.version, '1.0.0');
   assert.equal(manifest.application.repositoryContractVersion, 1);
   assert.equal(manifest.application.schemaVersion, 2);
   assert.equal(manifest.acceptance.ready, true);

@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { RELEASE_MANIFEST, validateReleaseManifest } from '../src/domain/releaseManifest.js';
 
-test('v0.5.0 release manifest preserves frozen integration contracts', () => {
+test('v1.0.0 release manifest preserves frozen integration contracts', () => {
   const result = validateReleaseManifest(RELEASE_MANIFEST);
   assert.equal(result.valid, true);
   assert.deepEqual(result.problems, []);

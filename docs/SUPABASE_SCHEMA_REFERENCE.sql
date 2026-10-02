@@ -1,4 +1,4 @@
--- Employee Evaluation v0.5.0 — reference schema only.
+-- Employee Evaluation v1.0.0 — reference schema only.
 -- IT partner owns production migrations, Auth mapping, RLS, indexes, triggers, and retention policy.
 
 create table if not exists public.employee_evaluation_employees (

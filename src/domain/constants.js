@@ -1,4 +1,4 @@
-export const APP_VERSION = '0.5.0';
+export const APP_VERSION = '1.0.0';
 export const REPOSITORY_CONTRACT_VERSION = 1;
 export const SCHEMA_VERSION = 2;
 export const BACKUP_FORMAT_VERSION = 2;

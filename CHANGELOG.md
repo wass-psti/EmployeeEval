@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.0.0 — Stable Standalone Handoff Release
+
+- Promoted the validated v0.5.0 Supabase handoff candidate to the stable standalone v1.0.0 integration baseline.
+- Froze Repository Contract v1, Employee/Evaluation Schema v2, Backup v2, Reconciliation v1, Diagnostic v1, Management Report v1, and Handoff Manifest v1.
+- Updated application/package version metadata and release-manifest validation for v1.0.0.
+- Finalized IT-partner start-here, handoff manifest, Supabase handoff, integration acceptance, migration reconciliation, final QA, release notes, and validation documentation.
+- Preserved the scoring model, permission rules, evaluation lifecycle, responsive UI, provider protection, concurrency behavior, reporting, audit, backup, and reconciliation behavior from the validated release candidate.
+- Introduced no Monday.com runtime dependency and no new production data provider; Supabase remains intentionally delegated to the IT partner.
+
 ## v0.5.0 — Final QA & Supabase Handoff Candidate
 
 - Froze Repository Contract v1, Schema v2, Backup v2, Reconciliation v1, Diagnostic v1, and Management Report v1 for the handoff candidate.
