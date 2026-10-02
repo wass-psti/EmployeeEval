@@ -1,0 +1,6 @@
+import React, { useMemo, useState } from 'react';
+import { Activity, Search } from 'lucide-react';
+import { useStore } from '../context/AppStore.jsx';
+import EmptyState from '../components/EmptyState.jsx';
+
+export default function ActivityPage(){const {activity}=useStore();const[search,setSearch]=useState('');const rows=useMemo(()=>activity.filter(r=>`${r.action} ${r.entityType} ${r.summary}`.toLowerCase().includes(search.toLowerCase())),[activity,search]);return <div className="page-stack"><div className="page-heading"><div><h1>Activity Log</h1><p>Local audit trail for standalone development</p></div></div><div className="toolbar"><div className="search-box"><Search size={16}/><input placeholder="Search activity…" value={search} onChange={e=>setSearch(e.target.value)}/></div><span className="record-count">{rows.length} events</span></div>{!rows.length?<EmptyState icon={Activity} title="No activity recorded" description="Employee, evaluation, review, and settings changes will appear here."/>:<div className="timeline">{rows.map(row=><article key={row.id}><div className="timeline-dot"/><div><div className="timeline-head"><strong>{row.summary}</strong><span>{new Date(row.createdAt).toLocaleString()}</span></div><p>{row.action} · {row.entityType} · actor {row.actorId}</p></div></article>)}</div>}</div>}
