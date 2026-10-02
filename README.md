@@ -1,10 +1,10 @@
-# Employee Evaluation — Standalone v0.3.0
+# Employee Evaluation — Standalone v0.4.0
 
 Standalone migration of the internal **Employee Evaluation** application previously hosted inside Monday.com. The project is intended for Watchdog Workspace and is being prepared for a future Supabase provider implemented by the IT partner.
 
-## v0.3.0 focus — Reporting, Audit & Integration Readiness
+## v0.4.0 focus — Responsive UX, Review Productivity & Release Hardening
 
-v0.3.0 keeps the evaluation/scoring model stable while strengthening management reporting, review/audit usability, backup safety, provider diagnostics, and migration verification.
+v0.4.0 keeps the scoring model and integration contracts stable while improving management-review throughput, browser-size adaptability, provider-failure recovery, accessibility, and final QA tooling.
 
 ### Included
 
@@ -13,21 +13,19 @@ v0.3.0 keeps the evaluation/scoring model stable while strengthening management 
 - Repository Contract v1 and Schema v2 retained
 - Repository-level Administrator / Supervisor / Employee authorization
 - Formal evaluation workflow and optimistic concurrency protection
-- Management report filters by period, department, status, and employee/recommendation search
-- Department performance breakdown, recommendation mix, workflow status mix, and category averages
-- CSV filtered-view export and JSON management-summary export
-- Management Review search/status filters, oldest-first review queue, waiting-age indicator, and per-evaluation audit history
-- Activity Log filters by action, entity, actor, and search term
-- Paginated Activity Log and filtered CSV audit export
-- Safe backup inspection before destructive import
-- Backup validation for structure, row validation, references, duplicates, settings, and schema compatibility
-- Non-destructive LocalStorage read/write provider health probe
-- Provider compatibility checks for availability, writability, Repository Contract v1, and Schema v2
-- Application-level protected write mode when the provider is incompatible
-- Supabase handoff acceptance gate
-- Diagnostic JSON export without raw employee/evaluation records
-- Reconciliation baseline export and post-migration comparison
-- Expanded Supabase migration and acceptance documentation
+- Management Review filters for status, department, aging, search, and sort order
+- Queue workload indicators for total items, 3+ day aging, 7+ day aging, and average waiting time
+- Previous/Next navigation inside the filtered management-review queue
+- Responsive review cards on smaller displays
+- Sticky/viewport-safe modal structure and stronger keyboard focus behavior
+- Skip-to-content accessibility control and modal focus trapping
+- React Error Boundary with controlled reload recovery
+- Provider refresh recovery that keeps last successfully loaded data visible while disabling writes
+- Last-refresh visibility and manual provider refresh from the top bar
+- Mobile navigation scrim and short-browser-height layout refinements
+- Safe backup inspection, provider diagnostics, handoff acceptance, and migration reconciliation from v0.3.0
+- `npm run check:release` consolidated release-validation command
+- Final QA checklist and release-manifest contract validation
 
 ## Architecture
 
@@ -65,6 +63,12 @@ npm run build
 npm run dev
 ```
 
+Final candidate validation:
+
+```bash
+npm run check:release
+```
+
 ## Local setup session
 
 Authentication is not yet connected, so the standalone build retains a **Local Setup Administrator** and role/session selector for development testing. This is scaffolding only. Production identity and authorization must come from Supabase Auth / Watchdog Workspace and database RLS.
@@ -72,7 +76,7 @@ Authentication is not yet connected, so the standalone build retains a **Local S
 ## Current integration versions
 
 ```text
-Application:             v0.3.0
+Application:             v0.4.0
 Repository Contract:     v1
 Employee/Eval Schema:    v2
 Backup Format:           v2
@@ -81,4 +85,4 @@ Diagnostic Format:       v1
 Management Report:       v1
 ```
 
-Start with `docs/SUPABASE_HANDOFF.md`, `docs/INTEGRATION_ACCEPTANCE.md`, `docs/MIGRATION_RECONCILIATION.md`, and the non-deployed `docs/SUPABASE_SCHEMA_REFERENCE.sql` before implementing the production provider.
+Before final promotion, complete `docs/FINAL_QA_CHECKLIST.md`. For Supabase implementation, start with `docs/SUPABASE_HANDOFF.md`, `docs/INTEGRATION_ACCEPTANCE.md`, `docs/MIGRATION_RECONCILIATION.md`, and the non-deployed `docs/SUPABASE_SCHEMA_REFERENCE.sql`.

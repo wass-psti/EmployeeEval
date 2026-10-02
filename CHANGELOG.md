@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.4.0 — Responsive UX, Review Productivity & Release Hardening
+
+- Added management-review queue filtering by department and waiting-age threshold.
+- Added queue sorting by oldest/newest, lowest/highest score, and employee name.
+- Added workload summaries for matching queue size, 3+ day aging, 7+ day aging, and average wait.
+- Added Previous/Next navigation inside the current filtered review queue.
+- Added responsive management-review cards for tablet/mobile layouts and aging emphasis for delayed review items.
+- Added provider refresh resilience: after a successful load, a later provider failure preserves last-known data while forcing protected read-only mode.
+- Added manual top-bar refresh, last-refresh visibility, and a dedicated stale-provider warning.
+- Added a React Error Boundary for controlled UI recovery.
+- Added skip-to-content accessibility and modal focus trapping/focus restoration.
+- Added mobile navigation scrim and short-browser-height layout refinements.
+- Added release-manifest validation to guard Repository Contract v1 / Schema v2 and format-version stability.
+- Added `npm run check:release` to run the full tests, handoff tests, and production build.
+- Added final responsive/provider/manual QA documentation.
+- Kept scoring rules, Repository Contract v1, Schema v2, Backup v2, Reconciliation v1, and Diagnostic v1 unchanged.
+
 ## v0.3.0 — Reporting, Audit & Integration Readiness
 
 - Added management-report filters for period, department, status, and employee/recommendation search.

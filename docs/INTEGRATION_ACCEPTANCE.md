@@ -1,4 +1,4 @@
-# Integration Acceptance — Employee Evaluation v0.3.0
+# Integration Acceptance — Employee Evaluation v0.4.0
 
 Before enabling a production Supabase provider, the Data & Integration page should report all of the following as passing:
 

@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { getRepository } from '../services/repositoryProvider.js';
 import { evaluateProviderCompatibility } from '../domain/diagnostics.js';
 
@@ -12,20 +12,46 @@ export function AppStoreProvider({ children }) {
   const [settings, setSettings] = useState(null);
   const [health, setHealth] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
+  const [providerError, setProviderError] = useState('');
+  const [lastRefreshAt, setLastRefreshAt] = useState(null);
+  const loadedRef = useRef(false);
   const [currentUserId, setCurrentUserId] = useState(() => localStorage.getItem('aps.employee-evaluation.current-user') || 'local-system');
 
   const refresh = useCallback(async () => {
+    const isInitialLoad = !loadedRef.current;
+    if (isInitialLoad) setLoading(true);
+    else setRefreshing(true);
     try {
-      setError('');
       const [nextHealth, nextEmployees, nextEvaluations, nextSettings, nextActivity] = await Promise.all([
         repository.health(), repository.listEmployees(), repository.listEvaluations(), repository.getSettings(), repository.listActivity(),
       ]);
-      setHealth(nextHealth); setEmployees(nextEmployees); setEvaluations(nextEvaluations); setSettings(nextSettings); setActivity(nextActivity);
+      setHealth(nextHealth);
+      setEmployees(nextEmployees);
+      setEvaluations(nextEvaluations);
+      setSettings(nextSettings);
+      setActivity(nextActivity);
+      setError('');
+      setProviderError('');
+      setLastRefreshAt(new Date().toISOString());
+      loadedRef.current = true;
     } catch (err) {
-      setError(err.message || 'Unable to load Employee Evaluation data.');
+      const message = err?.message || 'Unable to load Employee Evaluation data.';
+      if (loadedRef.current) {
+        setProviderError(message);
+        setHealth((previous) => ({
+          ...(previous || {}),
+          available: false,
+          writable: false,
+          lastError: message,
+        }));
+      } else {
+        setError(message);
+      }
     } finally {
       setLoading(false);
+      setRefreshing(false);
     }
   }, [repository]);
 
@@ -51,7 +77,7 @@ export function AppStoreProvider({ children }) {
   }, [currentUserId, employees]);
 
   const compatibility = useMemo(() => evaluateProviderCompatibility(health || {}), [health]);
-  const canMutate = compatibility.compatible;
+  const canMutate = compatibility.compatible && !providerError;
 
   const mutate = useCallback(async (operation) => {
     if (!canMutate) {
@@ -63,7 +89,11 @@ export function AppStoreProvider({ children }) {
     return result;
   }, [repository, currentUser.id, refresh, canMutate, compatibility]);
 
-  const value = { repository, employees, evaluations, activity, settings, health, compatibility, canMutate, loading, error, refresh, currentUser, currentUserId, setCurrentUser, mutate };
+  const value = {
+    repository, employees, evaluations, activity, settings, health, compatibility, canMutate,
+    loading, refreshing, error, providerError, lastRefreshAt, refresh,
+    currentUser, currentUserId, setCurrentUser, mutate,
+  };
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 
