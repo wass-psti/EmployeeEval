@@ -3,6 +3,7 @@ import { BarChart3, Download, Search } from 'lucide-react';
 import { useStore } from '../context/AppStore.jsx';
 import EmptyState from '../components/EmptyState.jsx';
 import { buildManagementReport } from '../domain/reporting.js';
+import { MANAGEMENT_REPORT_FORMAT_VERSION } from '../domain/constants.js';
 
 export default function ReportsPage() {
   const store = useStore();
@@ -28,7 +29,7 @@ export default function ReportsPage() {
   const exportSummary = () => {
     const payload = {
       format: 'employee-evaluation-management-report',
-      formatVersion: 1,
+      formatVersion: MANAGEMENT_REPORT_FORMAT_VERSION,
       generatedAt: new Date().toISOString(),
       filters: { period, department, status, search },
       summary: {

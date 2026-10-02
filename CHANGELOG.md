@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.5.0 — Final QA & Supabase Handoff Candidate
+
+- Froze Repository Contract v1, Schema v2, Backup v2, Reconciliation v1, Diagnostic v1, and Management Report v1 for the handoff candidate.
+- Added Handoff Manifest format v1 and an exportable, privacy-safe integration manifest containing frozen versions, required repository methods, provider readiness, dataset counts, and ownership boundaries.
+- Added application-level confirmation UX for employee deletion and removed remaining native browser `confirm()` prompts from runtime source.
+- Added unsaved-change protection to Employee master-data forms.
+- Upgraded evaluation unsaved-change handling to use the application dialog rather than a native browser confirmation.
+- Added browser/tab unload warnings while unsaved Employee or Evaluation form changes are present.
+- Added IT-partner start-here documentation, final handoff manifest documentation, and v0.5.0 validation record.
+- Expanded release-manifest validation to cover Management Report v1 and Handoff Manifest v1.
+- Kept scoring rules, review workflow, authorization rules, and integration-facing schema unchanged.
+
 ## v0.4.0 — Responsive UX, Review Productivity & Release Hardening
 
 - Added management-review queue filtering by department and waiting-age threshold.

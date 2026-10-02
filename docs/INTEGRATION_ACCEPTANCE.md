@@ -1,4 +1,4 @@
-# Integration Acceptance — Employee Evaluation v0.4.0
+# Integration Acceptance — Employee Evaluation v0.5.0
 
 Before enabling a production Supabase provider, the Data & Integration page should report all of the following as passing:
 
@@ -29,3 +29,9 @@ Verify the production provider supports:
 ## Security acceptance
 
 Production authorization must be enforced in Supabase/RLS or a trusted server boundary. Browser-selected role/session data is not authoritative.
+
+## Handoff artifact acceptance
+
+- Export Diagnostics and confirm the report contains counts/versions but no raw employee/evaluation records.
+- Export the Handoff Manifest and confirm Repository Contract v1 / Schema v2 / format versions match this release.
+- Export a reconciliation baseline immediately before production migration and compare it after the Supabase provider is enabled.

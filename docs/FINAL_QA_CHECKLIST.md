@@ -1,4 +1,4 @@
-# Employee Evaluation v0.4.0 — Final QA Checklist
+# Employee Evaluation v0.5.0 — Final QA Checklist
 
 Use this checklist before promoting the standalone build to the final Supabase handoff candidate.
 
@@ -48,6 +48,9 @@ Test at minimum at 1366×768, 1280×720, 1024×768, 768×1024, and a phone-sized
 - [ ] Escape closes dialogs when the current operation allows closure.
 - [ ] Focus returns to the initiating control after a modal closes.
 - [ ] Unexpected render failure shows the controlled Error Boundary recovery view.
+- [ ] Employee and Evaluation forms warn before discarding unsaved changes.
+- [ ] Refreshing/closing the browser with unsaved form changes triggers the browser unload warning.
+- [ ] Destructive employee deletion uses the application confirmation dialog; no native browser confirm prompt appears.
 
 ## Handoff regression
 
@@ -56,5 +59,7 @@ Test at minimum at 1366×768, 1280×720, 1024×768, 768×1024, and a phone-sized
 - [ ] Backup Format remains v2.
 - [ ] Reconciliation Format remains v1.
 - [ ] Diagnostic Format remains v1.
+- [ ] Management Report Format remains v1.
+- [ ] Handoff Manifest Format remains v1.
 - [ ] No Monday SDK/BoardSDK/runtime dependency has been reintroduced.
-- [ ] Backup inspection, diagnostics, reconciliation, reports, and audit export still work.
+- [ ] Backup inspection, diagnostics, reconciliation, reports, audit export, and Handoff Manifest export still work.

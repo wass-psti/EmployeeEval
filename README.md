@@ -1,31 +1,31 @@
-# Employee Evaluation — Standalone v0.4.0
+# Employee Evaluation — Standalone v0.5.0
 
-Standalone migration of the internal **Employee Evaluation** application previously hosted inside Monday.com. The project is intended for Watchdog Workspace and is being prepared for a future Supabase provider implemented by the IT partner.
+Standalone migration of the internal **Employee Evaluation** application previously hosted inside Monday.com. This project is intended for Watchdog Workspace and is prepared as the final standalone handoff candidate before the IT partner implements Supabase.
 
-## v0.4.0 focus — Responsive UX, Review Productivity & Release Hardening
+## v0.5.0 focus — Final QA & Supabase Handoff Candidate
 
-v0.4.0 keeps the scoring model and integration contracts stable while improving management-review throughput, browser-size adaptability, provider-failure recovery, accessibility, and final QA tooling.
+v0.5.0 freezes the scoring model and integration contracts while tightening release safety, unsaved-work protection, destructive-action UX, and IT-partner handoff documentation. No new evaluation-scoring rules were introduced in this release.
 
 ### Included
 
 - Zero Monday SDK / BoardSDK / Monday Storage dependencies
 - Clean first-run state with no employee/evaluation sample records
-- Repository Contract v1 and Schema v2 retained
+- Repository Contract v1 and Employee/Evaluation Schema v2
 - Repository-level Administrator / Supervisor / Employee authorization
-- Formal evaluation workflow and optimistic concurrency protection
-- Management Review filters for status, department, aging, search, and sort order
-- Queue workload indicators for total items, 3+ day aging, 7+ day aging, and average waiting time
-- Previous/Next navigation inside the filtered management-review queue
-- Responsive review cards on smaller displays
-- Sticky/viewport-safe modal structure and stronger keyboard focus behavior
-- Skip-to-content accessibility control and modal focus trapping
-- React Error Boundary with controlled reload recovery
-- Provider refresh recovery that keeps last successfully loaded data visible while disabling writes
-- Last-refresh visibility and manual provider refresh from the top bar
-- Mobile navigation scrim and short-browser-height layout refinements
-- Safe backup inspection, provider diagnostics, handoff acceptance, and migration reconciliation from v0.3.0
+- Draft → Submitted → Reviewed → Finalized / Returned workflow rules
+- Optimistic concurrency protection for employee and evaluation records
+- Management reporting, review queues, audit history, CSV/JSON exports
+- Safe backup inspection and schema-aware restore
+- Provider diagnostics and protected read-only mode
+- Migration reconciliation for post-Supabase verification
+- Responsive desktop/tablet/mobile layouts
+- Viewport-safe modals and short-browser-height handling
+- Application confirmation dialogs instead of native browser `confirm()` prompts
+- Unsaved-change protection for both evaluation and employee forms, including browser/tab unload warnings
+- Exportable handoff manifest containing frozen versions, repository-method requirements, readiness checks, and ownership boundaries without raw employee/evaluation content
+- React Error Boundary and provider refresh recovery
 - `npm run check:release` consolidated release-validation command
-- Final QA checklist and release-manifest contract validation
+- Final QA and IT-partner handoff documentation
 
 ## Architecture
 
@@ -76,13 +76,14 @@ Authentication is not yet connected, so the standalone build retains a **Local S
 ## Current integration versions
 
 ```text
-Application:             v0.4.0
+Application:             v0.5.0
 Repository Contract:     v1
 Employee/Eval Schema:    v2
 Backup Format:           v2
 Reconciliation Format:   v1
 Diagnostic Format:       v1
 Management Report:       v1
+Handoff Manifest:        v1
 ```
 
-Before final promotion, complete `docs/FINAL_QA_CHECKLIST.md`. For Supabase implementation, start with `docs/SUPABASE_HANDOFF.md`, `docs/INTEGRATION_ACCEPTANCE.md`, `docs/MIGRATION_RECONCILIATION.md`, and the non-deployed `docs/SUPABASE_SCHEMA_REFERENCE.sql`.
+For final validation, complete `docs/FINAL_QA_CHECKLIST.md`. For Supabase implementation, begin with `docs/IT_PARTNER_START_HERE.md`, then review `docs/HANDOFF_MANIFEST.md`, `docs/REPOSITORY_CONTRACT.md`, `docs/SUPABASE_HANDOFF.md`, `docs/INTEGRATION_ACCEPTANCE.md`, `docs/MIGRATION_RECONCILIATION.md`, and `docs/SUPABASE_SCHEMA_REFERENCE.sql`.
