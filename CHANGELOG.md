@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.1.0 — Watchdog Branded UI Overhaul
+
+- Added the supplied Watchdog Automation evaluation logo to the header, sidebar, loading state, and error state.
+- Added a Watchdog-branded favicon and browser theme color.
+- Introduced a teal/red/dark-slate visual system based on the supplied brand artwork.
+- Redesigned the dashboard with a branded hero, visually accented KPI cards, and segmented review-cycle progress.
+- Added a Management Review workflow strip for Evaluation → Management Review → Finalization → Share Results.
+- Added competency-summary cards in Reports with circular score indicators and star meters.
+- Refined panels, buttons, navigation, tables, forms, modals, empty states, focus states, and responsive behavior.
+- Preserved Repository Contract v1, Schema v2, Backup v2, Reconciliation v1, Diagnostic v1, Management Report v1, and Handoff Manifest v1.
+- Introduced no Monday runtime dependency and no direct Supabase dependency.
+
 ## v1.0.0 — Stable Standalone Handoff Release
 
 - Promoted the validated v0.5.0 Supabase handoff candidate to the stable standalone v1.0.0 integration baseline.

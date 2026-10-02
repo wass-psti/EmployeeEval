@@ -60,6 +60,16 @@ export default function ReviewsPage() {
   return <div className="page-stack">
     <div className="page-heading"><div><h1>Management Review</h1><p>Review submitted evaluations before finalization</p></div><div className="review-counts"><span>{store.evaluations.filter(r=>r.status==='Submitted').length} submitted</span><span>{store.evaluations.filter(r=>r.status==='Reviewed').length} reviewed</span></div></div>
 
+    <section className="review-workflow-strip" aria-label="Evaluation workflow">
+      <div className="workflow-step done"><i>1</i><span><strong>Evaluation</strong><small>Supervisor submission</small></span></div>
+      <div className="workflow-connector done"/>
+      <div className="workflow-step active"><i>2</i><span><strong>Management Review</strong><small>Quality and approval</small></span></div>
+      <div className="workflow-connector"/>
+      <div className="workflow-step"><i>3</i><span><strong>Finalization</strong><small>Lock final result</small></span></div>
+      <div className="workflow-connector"/>
+      <div className="workflow-step"><i>4</i><span><strong>Share Results</strong><small>Employee visibility</small></span></div>
+    </section>
+
     <div className="review-summary-grid">
       <Summary label="Matching queue" value={summary.total}/>
       <Summary label="Waiting 3+ days" value={summary.threePlus}/>

@@ -1,10 +1,10 @@
-# Employee Evaluation v1.0.0 — Handoff Manifest
+# Employee Evaluation v1.1.0 — Handoff Manifest
 
 ## Frozen application contracts
 
 | Contract | Version |
 | --- | ---: |
-| Application | 1.0.0 |
+| Application | 1.1.0 |
 | Repository Contract | 1 |
 | Employee/Evaluation Schema | 2 |
 | Backup Format | 2 |

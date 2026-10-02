@@ -1,4 +1,4 @@
-# IT Partner Start Here — Employee Evaluation v1.0.0
+# IT Partner Start Here — Employee Evaluation v1.1.0
 
 This repository is the stable standalone Employee Evaluation handoff release. The frontend, domain rules, evaluation workflow, scoring, reporting, audit UI, validation, backup, and reconciliation logic are already implemented. The production persistence/authentication layer is intentionally not implemented here.
 
@@ -31,7 +31,7 @@ PostgreSQL / Auth / RLS
 
 ## Frozen integration versions
 
-- Application: v1.0.0
+- Application: v1.1.0
 - Repository Contract: v1
 - Employee/Evaluation Schema: v2
 - Backup Format: v2

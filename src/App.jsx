@@ -30,8 +30,8 @@ function Shell() {
   const available = useMemo(() => NAV.filter((item) => item.roles.includes(store.currentUser.role)), [store.currentUser.role]);
   const validView = available.some((item) => item.id === view) ? view : available[0]?.id || 'my';
 
-  if (store.loading) return <div className="screen-center"><div><div className="spinner" /><p>Loading Employee Evaluation…</p></div></div>;
-  if (store.error) return <div className="screen-center"><div className="error-panel"><h2>Unable to load Employee Evaluation</h2><p>{store.error}</p><button className="btn primary" onClick={store.refresh}><RefreshCw size={16}/> Retry</button></div></div>;
+  if (store.loading) return <div className="screen-center branded-screen"><div><img src="/brand/watchdog-evaluation-logo.png" alt="" className="loading-logo"/><div className="spinner" /><p>Loading Employee Evaluation…</p></div></div>;
+  if (store.error) return <div className="screen-center branded-screen"><div className="error-panel"><img src="/brand/watchdog-evaluation-logo.png" alt="Watchdog Automation" className="error-logo"/><h2>Unable to load Employee Evaluation</h2><p>{store.error}</p><button className="btn primary" onClick={store.refresh}><RefreshCw size={16}/> Retry</button></div></div>;
 
   const page = {
     dashboard: <DashboardPage onNavigate={setView} />,
@@ -51,8 +51,8 @@ function Shell() {
     <header className="topbar">
       <div className="brand-block">
         <button className="mobile-menu" onClick={() => setMobileNav((value) => !value)} aria-label="Toggle navigation">{mobileNav?<X size={20}/>:<Menu size={20} />}</button>
-        <div className="brand-mark"><UserRoundCheck size={21} /></div>
-        <div><strong>Employee Evaluation</strong><span>Performance Management</span></div>
+        <div className="brand-mark"><img src="/brand/watchdog-evaluation-logo.png" alt="Watchdog Automation logo" /></div>
+        <div className="brand-copy"><span className="brand-kicker">Watchdog Automation</span><strong>Employee Evaluation</strong><span className="brand-subtitle">Performance Management</span></div>
       </div>
       <div className="topbar-actions">
         <div className="provider-status-group">
@@ -70,9 +70,10 @@ function Shell() {
     <div className="app-body">
       {mobileNav && <button className="nav-scrim" aria-label="Close navigation" onClick={()=>setMobileNav(false)} />}
       <aside className={`sidebar ${mobileNav ? 'open' : ''}`}>
+        <div className="sidebar-brand-strip"><span className="brand-signal"/><span>Performance Workspace</span></div>
         <div className="sidebar-user"><div className="avatar">{store.currentUser.name.split(' ').map((part) => part[0]).join('').slice(0,2).toUpperCase()}</div><div><strong>{store.currentUser.name}</strong><span>{ROLE_LABELS[store.currentUser.role] || store.currentUser.role}</span></div></div>
         <nav>{available.map((item) => { const Icon = item.icon; return <button key={item.id} className={validView === item.id ? 'active' : ''} onClick={() => { setView(item.id); setMobileNav(false); }}><Icon size={17} />{item.label}</button>; })}</nav>
-        <div className="sidebar-footer">Standalone v{APP_VERSION}<br />Supabase integration pending</div>
+        <div className="sidebar-footer"><div className="sidebar-footer-brand"><img src="/brand/watchdog-evaluation-logo.png" alt=""/><span>Watchdog Automation</span></div><span>Standalone v{APP_VERSION}</span><br /><span>Supabase integration pending</span></div>
       </aside>
       <main id="main-content" tabIndex={-1} className="main-content">{page}</main>
     </div>

@@ -1,4 +1,4 @@
-# Migration Reconciliation — Employee Evaluation v1.0.0
+# Migration Reconciliation — Employee Evaluation v1.1.0
 
 Use the reconciliation export to verify that the local reference dataset and the Supabase-backed dataset contain equivalent aggregate information after migration.
 

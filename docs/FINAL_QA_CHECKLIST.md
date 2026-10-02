@@ -1,4 +1,4 @@
-# Employee Evaluation v1.0.0 — Final QA Checklist
+# Employee Evaluation v1.1.0 — Final QA Checklist
 
 Use this checklist before handing the standalone release to the IT partner or enabling a production provider.
 
@@ -63,3 +63,13 @@ Test at minimum at 1366×768, 1280×720, 1024×768, 768×1024, and a phone-sized
 - [ ] Handoff Manifest Format remains v1.
 - [ ] No Monday SDK/BoardSDK/runtime dependency has been reintroduced.
 - [ ] Backup inspection, diagnostics, reconciliation, reports, audit export, and Handoff Manifest export still work.
+
+## v1.1.0 Watchdog branding checks
+
+- [ ] Watchdog Automation logo renders cleanly in the top bar and sidebar footer.
+- [ ] Browser favicon uses the supplied branded icon.
+- [ ] Dashboard hero remains readable at 1366×768, 1280×720, tablet, and mobile widths.
+- [ ] Segmented cycle progress accurately reflects finalized, in-progress, and not-started employees.
+- [ ] Competency-summary score rings remain readable and do not clip on narrow screens.
+- [ ] Management Review workflow strip collapses cleanly on tablet/mobile widths.
+- [ ] Branded colors preserve readable contrast for buttons, status badges, tables, and forms.
