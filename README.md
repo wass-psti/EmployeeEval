@@ -1,40 +1,33 @@
-# Employee Evaluation — Standalone v0.2.0
+# Employee Evaluation — Standalone v0.3.0
 
 Standalone migration of the internal **Employee Evaluation** application previously hosted inside Monday.com. The project is intended for Watchdog Workspace and is being prepared for a future Supabase provider implemented by the IT partner.
 
-## v0.2.0 focus — Permission, Workflow & Data Integrity Hardening
+## v0.3.0 focus — Reporting, Audit & Integration Readiness
 
-The first standalone baseline is now reinforced with repository-level authorization, strict evaluation state transitions, optimistic concurrency, schema migration, and stronger auditability. Client-side role visibility is still used for UX, but the LocalRepository now also rejects unauthorized mutations so it can serve as a clearer behavioral reference for Supabase/RLS.
+v0.3.0 keeps the evaluation/scoring model stable while strengthening management reporting, review/audit usability, backup safety, provider diagnostics, and migration verification.
 
 ### Included
 
 - Zero Monday SDK / BoardSDK / Monday Storage dependencies
 - Clean first-run state with no employee/evaluation sample records
-- Repository Contract v1 with LocalStorage reference provider
-- **Schema v2** with revision tracking
-- Administrator / Supervisor / Employee roles
-- Repository-level permission enforcement for employee, evaluation, review, settings, and backup mutations
-- Supervisor evaluation limited to assigned direct reports
-- One evaluation assignment per employee and evaluation period
-- Evaluation-window rules:
-  - **Open** — new and existing Draft/Returned evaluations may be worked on
-  - **Grace Period** — only existing Draft/Returned evaluations may continue
-  - **Closed** — evaluator mutations are blocked
-- Evaluation workflow enforcement:
-  - `Draft / Returned → Submitted`
-  - `Submitted → Reviewed / Returned`
-  - `Reviewed → Finalized / Returned`
-  - Finalized records are immutable in the evaluator workflow
-- Finalized-only employee self-view
-- Optimistic concurrency for employee and evaluation records
-- Protected employee deletion when evaluation history or supervisor relationships exist
-- Improved employee/reference validation
-- Enhanced activity metadata and review transition logging
-- Dataset-integrity diagnostics in Settings
-- Automatic v0.1 LocalStorage → schema v2 migration
-- Backup format v2 with v1 import compatibility
-- Unsaved-change warning in the evaluation form
-- Responsive desktop/laptop/tablet/mobile layouts retained
+- Repository Contract v1 and Schema v2 retained
+- Repository-level Administrator / Supervisor / Employee authorization
+- Formal evaluation workflow and optimistic concurrency protection
+- Management report filters by period, department, status, and employee/recommendation search
+- Department performance breakdown, recommendation mix, workflow status mix, and category averages
+- CSV filtered-view export and JSON management-summary export
+- Management Review search/status filters, oldest-first review queue, waiting-age indicator, and per-evaluation audit history
+- Activity Log filters by action, entity, actor, and search term
+- Paginated Activity Log and filtered CSV audit export
+- Safe backup inspection before destructive import
+- Backup validation for structure, row validation, references, duplicates, settings, and schema compatibility
+- Non-destructive LocalStorage read/write provider health probe
+- Provider compatibility checks for availability, writability, Repository Contract v1, and Schema v2
+- Application-level protected write mode when the provider is incompatible
+- Supabase handoff acceptance gate
+- Diagnostic JSON export without raw employee/evaluation records
+- Reconciliation baseline export and post-migration comparison
+- Expanded Supabase migration and acceptance documentation
 
 ## Architecture
 
@@ -45,7 +38,7 @@ AppStore / domain rules
    ↓
 Repository Contract v1
    ↓
-LocalRepository + permission/workflow rules
+LocalRepository (reference provider)
 ```
 
 Future production path:
@@ -67,21 +60,25 @@ PostgreSQL / Auth / RLS
 ```bash
 npm install
 npm test
+npm run test:handoff
 npm run build
 npm run dev
 ```
 
 ## Local setup session
 
-Authentication is not yet connected, so the standalone build retains a **Local Setup Administrator** and a role/session selector for development testing. This is scaffolding only. Production identity and authorization must come from Supabase Auth / Watchdog Workspace and database RLS.
+Authentication is not yet connected, so the standalone build retains a **Local Setup Administrator** and role/session selector for development testing. This is scaffolding only. Production identity and authorization must come from Supabase Auth / Watchdog Workspace and database RLS.
 
 ## Current integration versions
 
 ```text
-Application:           v0.2.0
-Repository Contract:   v1
-Employee/Eval Schema:  v2
-Backup Format:         v2
+Application:             v0.3.0
+Repository Contract:     v1
+Employee/Eval Schema:    v2
+Backup Format:           v2
+Reconciliation Format:   v1
+Diagnostic Format:       v1
+Management Report:       v1
 ```
 
-See `docs/PERMISSIONS_AND_WORKFLOW.md` and `docs/SUPABASE_HANDOFF.md` before implementing the production provider.
+Start with `docs/SUPABASE_HANDOFF.md`, `docs/INTEGRATION_ACCEPTANCE.md`, `docs/MIGRATION_RECONCILIATION.md`, and the non-deployed `docs/SUPABASE_SCHEMA_REFERENCE.sql` before implementing the production provider.

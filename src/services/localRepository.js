@@ -1,6 +1,7 @@
 import { currentPeriod, REPOSITORY_CONTRACT_VERSION, SCHEMA_VERSION } from '../domain/constants.js';
 import { calculateOverallScore } from '../domain/scoring.js';
 import { validateEmployee, validateEvaluation } from '../domain/validation.js';
+import { inspectIntegrity } from '../domain/integrity.js';
 import { assertPermission, canEvaluateEmployee, canManageEmployees, canManageSettings, canReviewEvaluations, resolveActor } from '../domain/permissions.js';
 import { assertEvaluationWindow, assertReviewTransition, canEvaluatorEditStatus } from '../domain/workflow.js';
 
@@ -122,13 +123,25 @@ async function activity(action, entityType, entityId, summary, actorId = 'local-
 export const localRepository = {
   async health() {
     const migration = ensureMigrated();
+    const probeKey = `${KEYS.migration}.probe`;
+    const probeValue = uid('probe');
+    let writable = false;
+    let probeError = null;
+    try {
+      localStorage.setItem(probeKey, probeValue);
+      writable = localStorage.getItem(probeKey) === probeValue;
+      localStorage.removeItem(probeKey);
+    } catch (error) {
+      probeError = error?.message || 'Local storage write probe failed.';
+    }
     return {
       available: true,
-      writable: true,
+      writable,
       provider: 'local',
       contractVersion: REPOSITORY_CONTRACT_VERSION,
       schemaVersion: SCHEMA_VERSION,
       migration,
+      probeError,
     };
   },
 
@@ -349,6 +362,13 @@ export const localRepository = {
     for (const evaluation of evaluations) {
       const check = validateEvaluation(evaluation, { allowDraft: ['Draft', 'Returned'].includes(evaluation.status) });
       if (!check.isValid) throw Object.assign(new Error(`Backup evaluation ${evaluation.id || ''} is invalid.`), { code: 'INVALID_BACKUP', details: check.errors });
+    }
+    const integrity = inspectIntegrity({ employees, evaluations, settings });
+    if (!integrity.ok) {
+      throw Object.assign(new Error(`Backup failed dataset integrity validation (${integrity.issues.length} issue${integrity.issues.length === 1 ? '' : 's'}).`), {
+        code: 'INVALID_BACKUP',
+        details: Object.fromEntries(integrity.issues.slice(0, 20).map((issue, index) => [`issue${index + 1}`, issue.message])),
+      });
     }
 
     write(KEYS.employees, employees);

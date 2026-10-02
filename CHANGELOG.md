@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.3.0 — Reporting, Audit & Integration Readiness
+
+- Added management-report filters for period, department, status, and employee/recommendation search.
+- Added department performance breakdown, recommendation mix, workflow-status mix, and richer report exports.
+- Added JSON management-summary export alongside filtered CSV reporting.
+- Improved Management Review with search/status filters, oldest-first queue ordering, waiting-age visibility, and per-evaluation audit history.
+- Expanded Activity Log with action/entity/actor filters, pagination, and filtered CSV export.
+- Added safe backup inspection before replacement, including structural, schema, row-level, duplicate, reference, and dataset-integrity checks.
+- Strengthened repository backup import to reject cross-record integrity failures.
+- Added a non-destructive LocalStorage read/write health probe.
+- Added provider compatibility checks and application-level protected write mode when a provider is unavailable, read-only, or incompatible.
+- Added a Supabase handoff acceptance gate.
+- Added diagnostic JSON export containing provider/integrity summaries without raw employee or evaluation data.
+- Added migration reconciliation baseline export and deterministic comparison for post-Supabase verification.
+- Kept Repository Contract v1 and Schema v2 unchanged to avoid integration contract churn.
+- Added dedicated handoff/integration automated tests and expanded management-report validation.
+
 ## v0.2.0 — Permission, Workflow & Data Integrity Hardening
 
 - Upgraded the Employee Evaluation domain schema from v1 to **v2**.

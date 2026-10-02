@@ -51,13 +51,14 @@ function Shell() {
         <div><strong>Employee Evaluation</strong><span>Performance Management</span></div>
       </div>
       <div className="topbar-actions">
-        <div className="provider-pill"><span className="status-dot online" />{store.health?.provider || 'local'} provider</div>
+        <div className="provider-pill"><span className={`status-dot ${store.canMutate ? 'online' : 'offline'}`} />{store.health?.provider || 'local'} provider{store.canMutate ? '' : ' · protected'}</div>
         <label className="session-switcher"><span>Local session</span><select value={store.currentUserId} onChange={(e) => { store.setCurrentUser(e.target.value); setView(e.target.value === 'local-system' ? 'dashboard' : (store.employees.find((row) => row.id === e.target.value)?.role === 'employee' ? 'my' : 'dashboard')); }}>
           <option value="local-system">Local Setup Administrator</option>
           {store.employees.filter((row) => row.active !== false).map((row) => <option key={row.id} value={row.id}>{row.name} · {ROLE_LABELS[row.role]}</option>)}
         </select></label>
       </div>
     </header>
+    {!store.canMutate && <div className="protected-banner"><strong>Protected read-only mode</strong><span>The configured provider is unavailable, read-only, or incompatible with Repository Contract v1 / Schema v2. Data-changing actions are blocked.</span><button className="btn secondary compact" onClick={store.refresh}>Retry Provider</button></div>}
     <div className="app-body">
       <aside className={`sidebar ${mobileNav ? 'open' : ''}`}>
         <div className="sidebar-user"><div className="avatar">{store.currentUser.name.split(' ').map((part) => part[0]).join('').slice(0,2).toUpperCase()}</div><div><strong>{store.currentUser.name}</strong><span>{ROLE_LABELS[store.currentUser.role] || store.currentUser.role}</span></div></div>

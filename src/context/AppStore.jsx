@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { getRepository } from '../services/repositoryProvider.js';
+import { evaluateProviderCompatibility } from '../domain/diagnostics.js';
 
 const StoreContext = createContext(null);
 
@@ -49,13 +50,20 @@ export function AppStoreProvider({ children }) {
     return employees.find((row) => row.id === currentUserId) || { id: 'local-system', name: 'Local Setup Administrator', role: 'admin', jobTitle: 'Standalone setup session' };
   }, [currentUserId, employees]);
 
+  const compatibility = useMemo(() => evaluateProviderCompatibility(health || {}), [health]);
+  const canMutate = compatibility.compatible;
+
   const mutate = useCallback(async (operation) => {
+    if (!canMutate) {
+      const failed = compatibility.checks.filter((row) => !row.pass).map((row) => row.label).join(', ');
+      throw Object.assign(new Error(`Writes are protected until the configured data provider passes compatibility checks${failed ? `: ${failed}` : ''}.`), { code: 'PROVIDER_PROTECTED' });
+    }
     const result = await operation(repository, currentUser.id);
     await refresh();
     return result;
-  }, [repository, currentUser.id, refresh]);
+  }, [repository, currentUser.id, refresh, canMutate, compatibility]);
 
-  const value = { repository, employees, evaluations, activity, settings, health, loading, error, refresh, currentUser, currentUserId, setCurrentUser, mutate };
+  const value = { repository, employees, evaluations, activity, settings, health, compatibility, canMutate, loading, error, refresh, currentUser, currentUserId, setCurrentUser, mutate };
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }
 

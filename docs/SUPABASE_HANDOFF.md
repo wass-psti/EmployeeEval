@@ -1,4 +1,4 @@
-# Supabase Integration Handoff — Employee Evaluation v0.2.0
+# Supabase Integration Handoff — Employee Evaluation v0.3.0
 
 ## Integration boundary
 
@@ -63,4 +63,15 @@ When updating employee/evaluation rows, compare the supplied revision with the c
 
 ## Backup/migration
 
-v0.2.0 exports backup format v2 and can import v1/v2 backups. The production migration should map all records to schema v2 and preserve revision/lifecycle metadata where available.
+v0.3.0 exports backup format v2 and can import v1/v2 backups after pre-import inspection. Export a reconciliation baseline before migration and compare it against the Supabase-backed provider afterward. The production migration should map all records to schema v2 and preserve revision/lifecycle metadata where available.
+
+
+## v0.3.0 integration tooling
+
+- Provider compatibility / protected-write checks
+- Dataset integrity acceptance gate
+- Diagnostic report export without raw record contents
+- Safe backup inspection before replacement
+- Reconciliation baseline export and deterministic comparison
+
+See `INTEGRATION_ACCEPTANCE.md` and `MIGRATION_RECONCILIATION.md`.

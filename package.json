@@ -1,13 +1,14 @@
 {
   "name": "employee-evaluation-standalone",
   "private": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test tests/*.test.js"
+    "test": "node --test tests/*.test.js",
+    "test:handoff": "node --test tests/integrationReadiness.test.js tests/integrity.test.js tests/permissions.test.js tests/repository.test.js"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
